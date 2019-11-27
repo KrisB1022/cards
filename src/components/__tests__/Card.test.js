@@ -13,7 +13,12 @@ import Card from "../Card";
 
 let wrapper;
 const updateUserCardsMock = jest.fn();
-const cardMock = { hereIsCard: true };
+const cardMock = {
+  name: "a card!",
+  imageUrl: "someimage.com",
+  set: { name: "I belong to this set" },
+  text: "Here is what this card does"
+};
 
 beforeEach(() => {
   updateUserCardsMock.mockClear();
@@ -47,15 +52,13 @@ it("has 1 <CardImg/>", () => {
   expect(wrapper.find(CardImg).length).toBe(1);
 });
 
-it("has 3 <CardText/>", () => {
+it("has 2 <CardText/>", () => {
   wrapper.setProps({
-    artist: "artist",
-    originalType: "originalType",
-    setName: "setName"
+    set: { name: "setName" }
   });
 
   expect(wrapper.find(CardText).exists()).toBeTruthy();
-  expect(wrapper.find(CardText).length).toBe(3);
+  expect(wrapper.find(CardText).length).toBe(2);
 });
 
 it("has Remove <Button/> if isUserCard is true", () => {

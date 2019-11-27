@@ -14,7 +14,7 @@ exports[`matches snapshot 1`] = `
     <div
       className="card-header"
     >
-      name
+      a card!
     </div>
     <div
       className="d-flex flex-column card-body"
@@ -23,14 +23,14 @@ exports[`matches snapshot 1`] = `
         className="figure mx-auto d-block mb-auto border-bottom pb-2"
       >
         <img
-          alt="name card image"
+          alt="a card! card image"
           className="mx-auto d-block figure-img img-fluid emotion-0 flex-grow-1 card-img-top"
-          src="https://via.placeholder.com/223x310.png"
+          src="someimage.com"
         />
         <figcaption
           className="figure-caption text-right"
         >
-          name
+          a card!
         </figcaption>
       </figure>
       <div
@@ -42,21 +42,10 @@ exports[`matches snapshot 1`] = `
           <span
             className="font-weight-bolder"
           >
-            Artist:
+            Card info:
           </span>
            
-          artist
-        </p>
-        <p
-          className="card-text"
-        >
-          <span
-            className="font-weight-bolder"
-          >
-            Original Type:
-          </span>
-           
-          originalType
+          Here is what this card does
         </p>
         <p
           className="card-text"
@@ -67,7 +56,7 @@ exports[`matches snapshot 1`] = `
             Set Name:
           </span>
            
-          setName
+          I belong to this set
         </p>
       </div>
       <button

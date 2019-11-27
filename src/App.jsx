@@ -114,9 +114,7 @@ class App extends PureComponent {
 
         const json = await res.json();
 
-        const { headers } = res;
-        const totalCount = headers.get("total-count");
-        const hasPages = headers.get("link").includes('rel="next"');
+        const hasPages = json._links && json._links.next;
 
         this.setState(() => {
           const { page, ...filters } = this.state.filters;
@@ -132,7 +130,7 @@ class App extends PureComponent {
             },
             isLoadingMore: false,
             isPageLoading: false,
-            totalCount: JSON.parse(totalCount)
+            totalCount: json._totalCount
           };
         });
       })
@@ -184,26 +182,15 @@ class App extends PureComponent {
             <Fragment>
               <div className="row">
                 {cards.map((card, index) => {
-                  const {
-                    artist,
-                    id,
-                    imageUrl,
-                    name,
-                    originalType,
-                    setName
-                  } = card;
+                  const { id } = card;
+
                   const isUserCard = userCards.byId[id] !== undefined;
 
                   return (
                     <Card
-                      artist={artist}
                       card={card}
-                      imageUrl={imageUrl}
                       isUserCard={isUserCard}
                       key={`${id}-${index}`}
-                      name={name}
-                      originalType={originalType}
-                      setName={setName}
                       updateUserCards={this.updateUserCards}
                     />
                   );

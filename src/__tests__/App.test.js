@@ -16,41 +16,28 @@ jest.useFakeTimers();
 let wrapper;
 const mockCards = [
   {
-    artist: "Kit Harington",
     imageUrl: "theNorthWall.jpg",
     name: "Aegon Targaryen",
-    originalType: "House Stark",
-    setName: "King of the North"
+    set: { name: "King of the North" }
   },
   {
-    artist: "Peter Dinklage",
     imageUrl: "handOfQueen.svg",
     name: "Tyrion Lannister",
-    originalType: "House Lannister",
-    setName: "Hand of the Queen"
+    set: { name: "Hand of the Queen" }
   },
   {
-    artist: "Iain Glen",
     imageUrl: "targaryenLyfe.jpg",
     name: "Jorah Mormont",
-    originalType: "House Targaryen",
-    setName: "Ser"
+    set: { name: "Ser" }
   }
 ];
 const success = {
-  headers: {
-    get: arg => {
-      if (arg === "link") {
-        return ["rel=next"];
-      }
-
-      if (arg === "total-count") {
-        return `${mockCards.length}`;
-      }
-    }
-  },
   json: jest.fn().mockReturnValue({
-    cards: mockCards
+    cards: mockCards,
+    _links: {
+      next: "http://google.com"
+    },
+    _totalCount: mockCards.length
   })
 };
 
@@ -343,7 +330,7 @@ describe("getCards", () => {
   it("sets correct state if no more pages available", async () => {
     const currentFilter = { filter1: true };
     const page = 2;
-    const count = "30";
+    const count = 30;
     wrapper.setState({
       totalCount: 2000,
       filters: {
@@ -351,22 +338,13 @@ describe("getCards", () => {
         page
       }
     });
-    const headers = {
-      get: arg => {
-        if (arg === "link") {
-          return ["rel=prev"];
-        }
-
-        if (arg === "total-count") {
-          return count;
-        }
-      }
-    };
 
     fetchApi.mockImplementationOnce(() => {
       return Promise.resolve({
-        ...success,
-        headers
+        json: jest.fn().mockReturnValue({
+          cards: mockCards,
+          _totalCount: count
+        })
       });
     });
 
@@ -391,22 +369,16 @@ describe("getCards", () => {
         page
       }
     });
-    const headers = {
-      get: arg => {
-        if (arg === "link") {
-          return ['rel="next"'];
-        }
-
-        if (arg === "total-count") {
-          return count;
-        }
-      }
-    };
 
     fetchApi.mockImplementationOnce(() => {
       return Promise.resolve({
-        ...success,
-        headers
+        json: jest.fn().mockReturnValue({
+          cards: mockCards,
+          _links: {
+            next: "http://google.com"
+          },
+          _totalCount: count
+        })
       });
     });
 
@@ -477,11 +449,9 @@ describe("getCards", () => {
     });
     const expected = [
       {
-        artist: "Here is an artist",
         imageUrl: "image.png",
         name: "Some Name",
-        originalType: "A type",
-        setName: "Set Set Set"
+        set: { name: "Set Set Set" }
       }
     ];
 
@@ -489,7 +459,9 @@ describe("getCards", () => {
       return Promise.resolve({
         ...success,
         json: jest.fn().mockReturnValue({
-          cards: expected
+          cards: expected,
+          _links: { next: "next url" },
+          _totalCount: mockCards.length + 1
         })
       });
     });

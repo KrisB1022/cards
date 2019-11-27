@@ -35,14 +35,8 @@ class Card extends PureComponent {
   };
 
   render() {
-    const {
-      name,
-      imageUrl,
-      isUserCard,
-      artist,
-      originalType,
-      setName
-    } = this.props;
+    const { card, isUserCard } = this.props;
+    const { imageUrl, name, set, text } = card;
 
     return (
       <div className="col-md-3 flex-grow-1 mb-4">
@@ -63,22 +57,16 @@ class Card extends PureComponent {
             </figure>
 
             <div className="pt-2 pb-2">
-              {artist &&
+              {text &&
                 this.cardTextMarkup({
-                  label: "Artist",
-                  text: artist
+                  label: "Card info",
+                  text
                 })}
 
-              {originalType &&
-                this.cardTextMarkup({
-                  label: "Original Type",
-                  text: originalType
-                })}
-
-              {setName &&
+              {set &&
                 this.cardTextMarkup({
                   label: "Set Name",
-                  text: setName
+                  text: set.name
                 })}
             </div>
 
@@ -100,12 +88,7 @@ class Card extends PureComponent {
 
 Card.propTypes = {
   card: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
-  artist: PropTypes.string,
-  imageUrl: PropTypes.string,
-  isUserCard: PropTypes.bool,
-  originalType: PropTypes.string,
-  setName: PropTypes.string
+  isUserCard: PropTypes.bool
 };
 
 Card.defaultProps = {

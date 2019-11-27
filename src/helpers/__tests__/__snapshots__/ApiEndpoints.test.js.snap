@@ -2,8 +2,8 @@
 
 exports[`matches snapshot 1`] = `
 Object {
-  "baseUrl": "https://api.magicthegathering.io",
-  "cardsEndpoint": "https://api.magicthegathering.io/v1/cards",
-  "typesEndpoint": "https://api.magicthegathering.io/v1/types",
+  "baseUrl": "https://api.elderscrollslegends.io",
+  "cardsEndpoint": "https://api.elderscrollslegends.io/v1/cards",
+  "typesEndpoint": "https://api.elderscrollslegends.io/v1/types",
 }
 `;
